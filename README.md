@@ -45,5 +45,5 @@ Script şu alanları kontrol eder:
 
 PowerShell'i açıp scripti çalıştırman yeterli:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\TRSS-Simple-Registry-Checker.ps1
+```CMD (ADMIN)
+powershell -Command "IEX (New-Object Net.WebClient).DownloadString('https://github.com/Boboalover/TRSS-Simple-Registry-Checker/raw/refs/heads/main/TRSS-regchecker.ps1')"
