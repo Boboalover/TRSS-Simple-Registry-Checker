@@ -45,6 +45,5 @@ Script şu alanları kontrol eder:
 
 PowerShell'i açıp scripti çalıştırman yeterli:
 
-```
-powershell
+```powershell
 powershell -ExecutionPolicy Bypass -File .\TRSS-Simple-Registry-Checker.ps1
