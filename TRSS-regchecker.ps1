@@ -1,6 +1,4 @@
-# Gereksinim: PowerShell 5+
-# Sadece konsola çıktı verir. Dosya oluşturmaz.
-
+Clear-Host
 $ErrorActionPreference = 'SilentlyContinue'
 
 function Bolum-Yaz {
@@ -16,7 +14,7 @@ function Bilgi-Yaz {
         [string]$Ad,
         [object]$Deger
     )
-    $goster = if ($null -eq $Deger -or $Deger -eq '') { '<boş>' } else { $Deger }
+    $goster = if ($null -eq $Deger -or $Deger -eq '') { '<boÃ¾>' } else { $Deger }
     Write-Host ("{0,-30}: {1}" -f $Ad, $goster)
 }
 
@@ -104,11 +102,11 @@ function Byte-Stringlerini-Cikar {
 function Prefetch-Yapilandirmasini-Goster {
     $yol = 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
 
-    Bolum-Yaz 'Prefetch Yapılandırması'
+    Bolum-Yaz 'Prefetch YapÃ½landÃ½rmasÃ½'
     Bilgi-Yaz 'Registry Yolu' $yol
 
     if (-not (Test-Path $yol)) {
-        Write-Host "Anahtar bulunamadı." -ForegroundColor Yellow
+        Write-Host "Anahtar bulunamadÃ½." -ForegroundColor Yellow
         return
     }
 
@@ -119,11 +117,11 @@ function Prefetch-Yapilandirmasini-Goster {
 
     Bilgi-Yaz 'EnablePrefetcher' $enablePrefetcher
     switch ($enablePrefetcher) {
-        0 { Write-Host '  -> Devre dışı' -ForegroundColor Yellow }
-        1 { Write-Host '  -> Uygulama başlatma prefetch açık' -ForegroundColor Green }
-        2 { Write-Host '  -> Boot prefetch açık' -ForegroundColor Green }
-        3 { Write-Host '  -> Boot + uygulama prefetch açık' -ForegroundColor Green }
-        default { Write-Host '  -> Bilinmeyen / standart dışı değer' -ForegroundColor Red }
+        0 { Write-Host '  -> Devre dÃ½Ã¾Ã½' -ForegroundColor Yellow }
+        1 { Write-Host '  -> Uygulama baÃ¾latma prefetch aÃ§Ã½k' -ForegroundColor Green }
+        2 { Write-Host '  -> Boot prefetch aÃ§Ã½k' -ForegroundColor Green }
+        3 { Write-Host '  -> Boot + uygulama prefetch aÃ§Ã½k' -ForegroundColor Green }
+        default { Write-Host '  -> Bilinmeyen / standart dÃ½Ã¾Ã½ deÃ°er' -ForegroundColor Red }
     }
 
     if ($null -ne $enableSuperfetch) {
@@ -135,7 +133,7 @@ function Prefetch-Yapilandirmasini-Goster {
     }
 
     Write-Host ""
-    Write-Host "Anahtar altındaki tüm değerler:" -ForegroundColor DarkCyan
+    Write-Host "Anahtar altÃ½ndaki tÃ¼m deÃ°erler:" -ForegroundColor DarkCyan
     $ozellikler = Kayit-Degerlerini-Al -Yol $yol
     foreach ($p in $ozellikler) {
         Bilgi-Yaz $p.Name (Kayit-Degerini-Bicimlendir $p.Value)
@@ -150,16 +148,16 @@ function RunOnce-Goster {
 
     foreach ($yol in $yollar) {
         $baslik = if ($yol -like 'HKCU*') {
-            'RunOnce (Geçerli Kullanıcı)'
+            'RunOnce (GeÃ§erli KullanÃ½cÃ½)'
         } else {
-            'RunOnce (Tüm Kullanıcılar / Makine)'
+            'RunOnce (TÃ¼m KullanÃ½cÃ½lar / Makine)'
         }
 
         Bolum-Yaz $baslik
         Bilgi-Yaz 'Registry Yolu' $yol
 
         if (-not (Test-Path $yol)) {
-            Write-Host "Anahtar bulunamadı." -ForegroundColor Yellow
+            Write-Host "Anahtar bulunamadÃ½." -ForegroundColor Yellow
             continue
         }
 
@@ -171,7 +169,7 @@ function RunOnce-Goster {
 
         foreach ($p in $ozellikler) {
             Write-Host ""
-            Bilgi-Yaz 'Değer Adı' $p.Name
+            Bilgi-Yaz 'DeÃ°er AdÃ½' $p.Name
             Bilgi-Yaz 'Komut' $p.Value
         }
     }
@@ -184,7 +182,7 @@ function OpenSavePidlMRUJar-Goster {
     Bilgi-Yaz 'Registry Yolu' $yol
 
     if (-not (Test-Path $yol)) {
-        Write-Host "Anahtar bulunamadı." -ForegroundColor Yellow
+        Write-Host "Anahtar bulunamadÃ½." -ForegroundColor Yellow
         return
     }
 
@@ -196,16 +194,16 @@ function OpenSavePidlMRUJar-Goster {
     $mruOzelligi = $ozellikler | Where-Object Name -eq 'MRUListEx'
     if ($mruOzelligi) {
         $sira = MRUListEx-Donustur -ByteDizisi $mruOzelligi.Value
-        Bilgi-Yaz 'MRU Sırası' (($sira | ForEach-Object { $_.ToString() }) -join ' -> ')
+        Bilgi-Yaz 'MRU SÃ½rasÃ½' (($sira | ForEach-Object { $_.ToString() }) -join ' -> ')
     } else {
-        Write-Host "MRUListEx bulunamadı." -ForegroundColor Yellow
+        Write-Host "MRUListEx bulunamadÃ½." -ForegroundColor Yellow
         $sira = @()
     }
 
     $girdiOzellikleri = $ozellikler | Where-Object { $_.Name -ne 'MRUListEx' }
 
     if (-not $girdiOzellikleri) {
-        Write-Host "jar için MRU girdisi bulunamadı." -ForegroundColor Yellow
+        Write-Host "jar iÃ§in MRU girdisi bulunamadÃ½." -ForegroundColor Yellow
         return
     }
 
@@ -225,29 +223,29 @@ function OpenSavePidlMRUJar-Goster {
 
         $ham = $p.Value
         if ($ham -isnot [byte[]]) {
-            Bilgi-Yaz 'Tür' $p.TypeNameOfValue
+            Bilgi-Yaz 'TÃ¼r' $p.TypeNameOfValue
             Bilgi-Yaz 'Veri' (Kayit-Degerini-Bicimlendir $ham)
             continue
         }
 
-        Bilgi-Yaz 'Tür' 'PIDL / Binary blob'
+        Bilgi-Yaz 'TÃ¼r' 'PIDL / Binary blob'
         Bilgi-Yaz 'Ham Boyut' ("{0} byte" -f $ham.Length)
-        Bilgi-Yaz 'Hex Önizleme' (($ham | Select-Object -First 32 | ForEach-Object { $_.ToString('X2') }) -join ' ')
+        Bilgi-Yaz 'Hex Ã–nizleme' (($ham | Select-Object -First 32 | ForEach-Object { $_.ToString('X2') }) -join ' ')
 
         $stringler = Byte-Stringlerini-Cikar -ByteDizisi $ham -MinimumUzunluk 4
         if ($stringler.Count -gt 0) {
-            Write-Host "Okunabilir string / path ipuçları:" -ForegroundColor DarkCyan
+            Write-Host "Okunabilir string / path ipuÃ§larÃ½:" -ForegroundColor DarkCyan
             $stringler | Select-Object -First 12 | ForEach-Object {
                 Write-Host ("  - {0}" -f $_)
             }
         } else {
-            Write-Host "Blob içinden okunabilir string çıkarılamadı." -ForegroundColor Yellow
+            Write-Host "Blob iÃ§inden okunabilir string Ã§Ã½karÃ½lamadÃ½." -ForegroundColor Yellow
         }
     }
 
     Write-Host ""
-    Write-Host "Not: OpenSavePidlMRU girdileri Shell / PIDL blob formatındadır." -ForegroundColor DarkYellow
-    Write-Host "Bu script tam forensic parser değildir; best-effort string çıkarımı yapar." -ForegroundColor DarkYellow
+    Write-Host "Not: OpenSavePidlMRU girdileri Shell / PIDL blob formatÃ½ndadÃ½r." -ForegroundColor DarkYellow
+    Write-Host "Bu script tam forensic parser deÃ°ildir; best-effort string Ã§Ã½karÃ½mÃ½ yapar." -ForegroundColor DarkYellow
 }
 
 function Registry4657Eventlerini-Goster {
@@ -260,13 +258,13 @@ function Registry4657Eventlerini-Goster {
         } -MaxEvents 300
     }
     catch {
-        Write-Host "Security log sorgulanamadı. PowerShell'i yönetici olarak çalıştırmayı dene." -ForegroundColor Red
+        Write-Host "Security log sorgulanamadÃ½. PowerShell'i yÃ¶netici olarak Ã§alÃ½Ã¾tÃ½rmayÃ½ dene." -ForegroundColor Red
         return
     }
 
     if (-not $eventler) {
-        Write-Host "Sorgulanan aralıkta 4657 eventi bulunamadı." -ForegroundColor Yellow
-        Write-Host "Hatırlatma: 4657 ancak Audit Registry açıksa ve ilgili key üzerinde Set Value auditing varsa görünür." -ForegroundColor DarkYellow
+        Write-Host "Sorgulanan aralÃ½kta 4657 eventi bulunamadÃ½." -ForegroundColor Yellow
+        Write-Host "HatÃ½rlatma: 4657 ancak Audit Registry aÃ§Ã½ksa ve ilgili key Ã¼zerinde Set Value auditing varsa gÃ¶rÃ¼nÃ¼r." -ForegroundColor DarkYellow
         return
     }
 
@@ -304,8 +302,8 @@ function Registry4657Eventlerini-Goster {
     }
 
     if (-not $filtrelenenler) {
-        Write-Host "Hedeflenen key'ler için eşleşen 4657 eventi bulunamadı." -ForegroundColor Yellow
-        Write-Host "4657, registry VALUE değişikliklerini loglar; sadece key'e bakılmış olmasını loglamaz." -ForegroundColor DarkYellow
+        Write-Host "Hedeflenen key'ler iÃ§in eÃ¾leÃ¾en 4657 eventi bulunamadÃ½." -ForegroundColor Yellow
+        Write-Host "4657, registry VALUE deÃ°iÃ¾ikliklerini loglar; sadece key'e bakÃ½lmÃ½Ã¾ olmasÃ½nÃ½ loglamaz." -ForegroundColor DarkYellow
         return
     }
 
@@ -314,18 +312,18 @@ function Registry4657Eventlerini-Goster {
         Write-Host ("[{0}]" -f $e.Zaman) -ForegroundColor Green
         Bilgi-Yaz 'ObjectName' $e.ObjectName
         Bilgi-Yaz 'ValueName' $e.ObjectValueName
-        Bilgi-Yaz 'İşlem' $e.OperationType
-        Bilgi-Yaz 'Eski Tür' $e.OldValueType
-        Bilgi-Yaz 'Eski Değer' $e.OldValue
-        Bilgi-Yaz 'Yeni Tür' $e.NewValueType
-        Bilgi-Yaz 'Yeni Değer' $e.NewValue
+        Bilgi-Yaz 'ÃÃ¾lem' $e.OperationType
+        Bilgi-Yaz 'Eski TÃ¼r' $e.OldValueType
+        Bilgi-Yaz 'Eski DeÃ°er' $e.OldValue
+        Bilgi-Yaz 'Yeni TÃ¼r' $e.NewValueType
+        Bilgi-Yaz 'Yeni DeÃ°er' $e.NewValue
         Bilgi-Yaz 'Process' $e.ProcessName
-        Bilgi-Yaz 'Kullanıcı' $e.SubjectUserName
+        Bilgi-Yaz 'KullanÃ½cÃ½' $e.SubjectUserName
     }
 }
 
 function EventLog-Temizleme-Izlerini-Goster {
-    Bolum-Yaz 'Event Log Temizleme İzleri (Event ID 104)'
+    Bolum-Yaz 'Event Log Temizleme Ãzleri (Event ID 104)'
 
     $aranacakLoglar = @(
         'System',
@@ -364,21 +362,21 @@ function EventLog-Temizleme-Izlerini-Goster {
                         Zaman      = $evt.TimeCreated
                         Log        = $logAdi
                         Saglayici  = $evt.ProviderName
-                        Kullanici  = '<çözülemedi>'
-                        Kanal      = '<çözülemedi>'
+                        Kullanici  = '<Ã§Ã¶zÃ¼lemedi>'
+                        Kanal      = '<Ã§Ã¶zÃ¼lemedi>'
                         Bilgisayar = $evt.MachineName
                     }
                 }
             }
         }
         catch {
-            Write-Host "$logAdi logu sorgulanamadı." -ForegroundColor Yellow
+            Write-Host "$logAdi logu sorgulanamadÃ½." -ForegroundColor Yellow
         }
     }
 
     if (-not $sonuclar -or $sonuclar.Count -eq 0) {
-        Write-Host "Event ID 104 bulunamadı." -ForegroundColor Green
-        Write-Host "Bu, logların hiç temizlenmediği anlamına gelebilir; ama eski kayıtların üstüne yazılmış olması da mümkündür." -ForegroundColor DarkYellow
+        Write-Host "Event ID 104 bulunamadÃ½." -ForegroundColor Green
+        Write-Host "Bu, loglarÃ½n hiÃ§ temizlenmediÃ°i anlamÃ½na gelebilir; ama eski kayÃ½tlarÃ½n Ã¼stÃ¼ne yazÃ½lmÃ½Ã¾ olmasÃ½ da mÃ¼mkÃ¼ndÃ¼r." -ForegroundColor DarkYellow
         return
     }
 
@@ -388,16 +386,16 @@ function EventLog-Temizleme-Izlerini-Goster {
         Bilgi-Yaz 'Log' $s.Log
         Bilgi-Yaz 'Provider' $s.Saglayici
         Bilgi-Yaz 'Kanal' $s.Kanal
-        Bilgi-Yaz 'Kullanıcı' $s.Kullanici
+        Bilgi-Yaz 'KullanÃ½cÃ½' $s.Kullanici
         Bilgi-Yaz 'Bilgisayar' $s.Bilgisayar
     }
 
     Write-Host ""
-    Write-Host "Not: 104 görmek, ilgili event log kanalının temizlendiğine işaret edebilir." -ForegroundColor DarkYellow
+    Write-Host "Not: 104 gÃ¶rmek, ilgili event log kanalÃ½nÃ½n temizlendiÃ°ine iÃ¾aret edebilir." -ForegroundColor DarkYellow
 }
 
 function AppCompat-Policy-Goster {
-    Bolum-Yaz 'AppCompat Policy Kontrolü (DisablePCA)'
+    Bolum-Yaz 'AppCompat Policy KontrolÃ¼ (DisablePCA)'
 
     $yollar = @(
         'HKCU:\SOFTWARE\Policies\Microsoft\Windows\AppCompat',
@@ -409,7 +407,7 @@ function AppCompat-Policy-Goster {
         Bilgi-Yaz 'Registry Yolu' $yol
 
         if (-not (Test-Path $yol)) {
-            Write-Host "Anahtar bulunamadı." -ForegroundColor Yellow
+            Write-Host "Anahtar bulunamadÃ½." -ForegroundColor Yellow
             continue
         }
 
@@ -417,25 +415,25 @@ function AppCompat-Policy-Goster {
         $disablePCA = $oge.DisablePCA
 
         if ($null -eq $disablePCA) {
-            Write-Host "DisablePCA değeri bulunamadı." -ForegroundColor Green
+            Write-Host "DisablePCA deÃ°eri bulunamadÃ½." -ForegroundColor Green
         } else {
             Bilgi-Yaz 'DisablePCA' $disablePCA
 
             switch ($disablePCA) {
                 0 {
-                    Write-Host "  -> PCA devre dışı değil." -ForegroundColor Green
+                    Write-Host "  -> PCA devre dÃ½Ã¾Ã½ deÃ°il." -ForegroundColor Green
                 }
                 1 {
-                    Write-Host "  -> PCA policy ile kapatılmış görünüyor." -ForegroundColor Red
+                    Write-Host "  -> PCA policy ile kapatÃ½lmÃ½Ã¾ gÃ¶rÃ¼nÃ¼yor." -ForegroundColor Red
                     Write-Host "  -> Bu durum ek kontrol gerektirebilir." -ForegroundColor DarkYellow
                 }
                 default {
-                    Write-Host "  -> Standart dışı değer." -ForegroundColor Yellow
+                    Write-Host "  -> Standart dÃ½Ã¾Ã½ deÃ°er." -ForegroundColor Yellow
                 }
             }
         }
 
-        Write-Host "Anahtar altındaki tüm değerler:" -ForegroundColor DarkCyan
+        Write-Host "Anahtar altÃ½ndaki tÃ¼m deÃ°erler:" -ForegroundColor DarkCyan
         $ozellikler = Kayit-Degerlerini-Al -Yol $yol
         if ($ozellikler) {
             foreach ($p in $ozellikler) {
@@ -446,11 +444,11 @@ function AppCompat-Policy-Goster {
 }
 
 # =========================
-# Ana Çalışma
+# Ana Ã‡alÃ½Ã¾ma
 # =========================
 
-Bolum-Yaz 'Registry / Event Hızlı Analiz'
-Write-Host "Bu script sadece konsola çıktı verir." -ForegroundColor DarkCyan
+Bolum-Yaz 'Registry / Event HÃ½zlÃ½ Analiz'
+Write-Host "Bu script sadece konsola Ã§Ã½ktÃ½ verir." -ForegroundColor DarkCyan
 
 Prefetch-Yapilandirmasini-Goster
 RunOnce-Goster
@@ -460,4 +458,4 @@ EventLog-Temizleme-Izlerini-Goster
 AppCompat-Policy-Goster
 
 Write-Host ""
-Write-Host "Tamamlandı." -ForegroundColor Cyan
+Write-Host "TamamlandÃ½." -ForegroundColor Cyan
