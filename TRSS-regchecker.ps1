@@ -102,7 +102,7 @@ function Byte-Stringlerini-Cikar {
 function Prefetch-Yapilandirmasini-Goster {
     $yol = 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
 
-    Bolum-Yaz 'Prefetch Yapýlandýrmasý'
+    Bolum-Yaz 'Prefetch Yapılandırması'
     Bilgi-Yaz 'Registry Yolu' $yol
 
     if (-not (Test-Path $yol)) {
